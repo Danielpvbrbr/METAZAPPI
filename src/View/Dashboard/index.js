@@ -4,7 +4,6 @@ import {
     AreaDash,
     AreaDashBottom,
     PainelDash,
-    Periodo,
     AreaRlt
 } from './styles'
 import { useState } from 'react';
@@ -17,6 +16,7 @@ import {
 import TinyBarChart from '../../components/TinyBarChart';
 import PieChartLabel from '../../components/PieChartLabel';
 import LineChart from '../../components/LineChartLabel';
+import Period from '../../components/Period';
 
 export default function Dashboard({ width }) {
     return (
@@ -42,11 +42,7 @@ export default function Dashboard({ width }) {
                 />
             </AreaCards>
             <PainelDash width={width - 5}>
-                <Periodo>
-                    <input type='date' />
-                    <p>a</p>
-                    <input type='date' />
-                </Periodo>
+                <Period/>
 
                 <AreaRlt width={width - 30}>
                     <button>
