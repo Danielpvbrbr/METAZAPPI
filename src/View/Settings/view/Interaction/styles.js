@@ -18,5 +18,8 @@ export const Controller = styled.div`
     border:1px solid #fff ;
     padding:6px ;
     overflow-y: scroll;
+    pre{
+        color:#fff ;
+    }
 `;
     

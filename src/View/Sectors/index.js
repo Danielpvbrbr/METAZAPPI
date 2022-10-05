@@ -36,6 +36,7 @@ export default function Sectors({ width }) {
                             width={30}
                             height={60}
                             radius={5}
+                            placeholder='Setor'
                         />
                         <InputLabel
                             title='Dias da semana:'
@@ -43,6 +44,7 @@ export default function Sectors({ width }) {
                             width={30}
                             height={60}
                             radius={5}
+                            placeholder='dias'
                         />
                         <InputLabel
                             title='Horas:'

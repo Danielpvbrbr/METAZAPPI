@@ -3,61 +3,78 @@ import {
     Container,
     Controller,
 } from './styles';
-import InputMultArray from '../../../../components/InputMultArray';
-import InputMenuOption from '../../../../components/InputMenuOption';
-import InputLabel from '../../../../components/InputLabel';
 import Option from '../../../../components/Option';
+import OptionSem from '../../../../components/OptionSem';
+import TypeInput from '../../../../components/TypeInput';
 
+export default function Interaction() {
+    const [selected, setSelected] = useState('incoming');
+    const valueBase = { info: '', type: selected };
+    const [input, setInput] = useState([{ ...valueBase }]);
 
-export default function Interaction({ }) {
-    const [input, setInput] = useState([]);
-    const [selected, setSelected] = useState();
-
-    const inputCreate = () => {
-        switch (selected) {
-            case 'incoming':
-                return setInput([...input, <InputMultArray />]);
-            case 'toask':
-                return setInput([...input, <InputMenuOption />]);
-            case 'option':
-                return setInput([...input, <InputMenuOption />]);
-            case 'respondent':
-                return setInput([...input, <InputLabel
-                    title='Responda:'
-                    type='text'
-                    width={34.3}
-                    height={60}
-                    radius={5}
-                />]);
-            default:
-                console.log(selected);
-        };
+    const handleAdd = () => {
+        setInput(state => [...state, { ...valueBase }]);
     };
 
-    function removOPCicle(pos) {
-        setInput([...input.filter((_, i) => i !== pos)]);
+    const handleChange = (e, ix) => {
+        const { name, value } = e.target;
+        let values = [...input];
+        values[ix][name] = value;
+        setInput(state => [...values]);
+    };
+
+    const handleDelete = (ix) => {
+        let values = input.filter((a, b) => {
+            if (b !== ix) {
+                return a;
+            }
+        });
+        setInput(state => [...values]);
+    };
+    
+    const funcOn = (res, ix) => {
+        const { name, value } = res;
+        let values = [...input];
+        values[ix][name] = value;
+        setInput(state => [...values]);
     };
 
     return (
         <Container>
             <Controller>
-                <InputMultArray />
-                <Option
-                    onClick={() => inputCreate()}
-                    Selected={setSelected}
-                />
-                {input.map((v, i) =>
-                    <>
-                        {v}
-                        <Option
-                            onClick={() => inputCreate()}
-                            Selected={setSelected}
-                            key={i}
-                            remove={() => removOPCicle(i)}
+                {input.map((inpt, i) =>
+                    <div key={i}>
+                        <TypeInput
+                            value={inpt.info}
+                            name='info'
+                            id={i}
+                            onChange={e => handleChange(e, i)}
+                            funcOn={e => funcOn(e, i)}
+                            selected={inpt.type}
                         />
 
-                    </>
+                        <OptionSem
+                            onClick={e => handleAdd(e)}
+                            Selected={setSelected}
+                            defaultValue={inpt.type}
+                            onChange={e => handleChange(e, i)}
+                            key={i}
+                            name="info"
+                            remove={() => handleDelete(i)}
+                        />
+                    </div>
                 )}
+                <Option
+                    onClick={e => handleAdd(e)}
+                    Selected={setSelected}
+                    onChange={e => setSelected(e.target.value)}
+                    defaultValue={selected}
+                    desabled={input.length > 1}
+                />
+
+                <pre>
+                    {JSON.stringify(input, null, 2)}
+                </pre>
             </Controller>
         </Container>
     )

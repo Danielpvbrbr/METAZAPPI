@@ -2,22 +2,16 @@ import styled from "styled-components";
 
 export const Container = styled.div`
     display:flex ;
-    justify-content:center ;
-    flex-direction:row ;
-    align-items:center ;
-    margin:6px 2px ;
+    justify-content:start ;
+    flex-direction:column ;
+    align-items:start ;
+    margin:2px 2px ;
     
     section{
         display:flex ;
         flex-direction:row ;
-        justify-content:space-around ;
+        justify-content:center ;
         align-items:center ;
-        /* background-color: #ffff; */
-        box-shadow: 0 0 0.7em #fff;
-        border-radius:5px ;
-        padding:1px ;
-        width: 130px;
-        margin-left:2px ;
     }
     select{
         width: 100px;
@@ -25,5 +19,10 @@ export const Container = styled.div`
         border-radius: 3px;
         font-size: 10pt;
     }
-    
+    svg{
+        color: #fff;
+    }
+    svg:hover{
+        color: #ff0000;
+    }
 `;

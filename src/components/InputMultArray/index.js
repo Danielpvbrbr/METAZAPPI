@@ -5,7 +5,7 @@ import {
 import { useState } from 'react';
 
 
-export default function InputMultArray({ title, width, height, radius }) {
+export default function InputMultArray({ name, id, funcOn, width, height, radius }) {
     const [oPCicle, setOPCicle] = useState([]);
     const [opArray, setOpArray] = useState('');
 
@@ -25,8 +25,12 @@ export default function InputMultArray({ title, width, height, radius }) {
                 setOPCicle([...oPCicle, arrayOp.join('')]);
                 setOpArray('');
             };
-
         };
+    };
+
+    function onChange(e) {
+        setOpArray(e.target.value);
+        funcOn({ name: name, value: oPCicle })
     };
 
     function removOPCicle(pos) {
@@ -36,20 +40,22 @@ export default function InputMultArray({ title, width, height, radius }) {
 
     return (
         <Container width={width} height={height} radius={radius}>
-          <label>Quando o entrante for: <span>Obs: ( Use a virgula para separa )</span></label>
-                <InpuCicle>
-                    {oPCicle.map((v, i) =>
-                        <span key={i} onClick={() => removOPCicle(i)}>{v}</span>
-                    )}
+            <label>Quando o entrante for: <span>Obs: ( Use a virgula para separa )</span></label>
+            <InpuCicle>
+                {oPCicle.map((v, i) =>
+                    <span key={i} onClick={() => removOPCicle(i)}>{v}</span>
+                )}
 
-                    <input
-                        type='text'
-                        maxLength={10}
-                        value={opArray}
-                        onChange={e => setOpArray(e.target.value)}
-                        onKeyDown={e => OPCicle(e)}
-                    />
-                </InpuCicle>
+                <input
+                    type='text'
+                    maxLength={10}
+                    value={opArray}
+                    name={name}
+                    id={id}
+                    onChange={onChange}
+                    onKeyDown={e => OPCicle(e)}
+                />
+            </InpuCicle>
         </Container>
     )
 }

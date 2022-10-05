@@ -1,47 +1,33 @@
 import {
     Container,
 } from './styles'
-import { useState } from 'react';
-import { BsArrowDown, BsArrowReturnRight, BsArrowReturnLeft } from "react-icons/bs";
+// import { useState } from 'react';
+import { BsPlusCircleFill, BsArrowReturnRight } from "react-icons/bs";
 
-export default function Option({ key, onClick, Selected, remove }) {
-    const [isSelected, setIsSelected] = useState(false);
-
-
-    const isVery = (e) => {
-        Selected(e)
-        setIsSelected(e.length > 1);
-    };
-
+export default function Option({ key, onClick, remove, name, defaultValue, onChange,desabled }) {
     return (
         <Container>
+            <BsArrowReturnRight
+                size={30}
+                color='#fff'
+            />
+
             <section>
-                <BsArrowReturnRight
-                    size={30}
-                    cursor='pointer'
-                    onClick={() => remove(key)}
-                />
-                <select name="select" onChange={e => isVery(e.target.value)} defaultValue={'DEFAULT'}>
+                <select name={name} onChange={onChange} defaultValue={defaultValue}>
                     <option value="DEFAULT" disabled>Ação</option>
                     <option value="incoming">Entrante</option>
                     <option value="respondent" >Responder</option>
                     <option value="toask" >Perguntar</option>
                     <option value="option">Opções</option>
                 </select>
-                <BsArrowReturnLeft
-                    size={30}
-                    cursor='pointer'
-                    onClick={() => remove(key)}
-                />
-            </section>
-            {isSelected &&
-                <BsArrowDown
-                    size={30}
-                    color='#fff'
+
+                <BsPlusCircleFill
+                    size={20}
+                    color='#23FC00' 
                     cursor='pointer'
                     onClick={onClick}
                 />
-            }
+            </section>
         </Container>
     )
 }

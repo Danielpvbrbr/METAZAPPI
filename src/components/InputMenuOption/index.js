@@ -8,35 +8,83 @@ import {
 import { useState } from 'react';
 import { BsArrowRight, BsPlusLg, BsArrowReturnRight, BsArrowReturnLeft } from "react-icons/bs";
 
-export default function InputMenuOption({ title, width, height, radius }) {
-    const [menuArea, setMenuArea] = useState('');
-    const [inputOpt, setinputOpt] = useState([]);
+export default function InputMenuOption({
+    title,
+    width,
+    height,
+    radius,
+    type,
+    placeholder,
+    funcOn,
+    id,
+    name
+}) {
+    const [textTarget, setTextTarget] = useState('');
+    const valueBase = { info: '', type: 'incoming' };
+    const [inputOpt, setinputOpt] = useState([...valueBase]);
+
 
     const handleInputOpt = () => {
-        setinputOpt([...inputOpt, ''])
+        setinputOpt(state => [...state, { ...valueBase }]);
+        funcOn({
+            name: name,
+            value: {
+                text: textTarget,
+                subOpt: inputOpt
+            }
+        });
+    };
+
+    function onChange(e, ix) {
+        // setTextTarget(e.target.value);
+        funcOn({
+            name: name,
+            value: {
+                text: textTarget,
+                subOpt: inputOpt
+            }
+        });
+
+        const { name, value } = e.target;
+        let values = [...inputOpt];
+        values[ix][name] = value;
+        setinputOpt(state => [...values]);
+    };
+
+
+    function removInput(ix) {
+        let values = inputOpt.filter((a, b) => {
+            if (b !== ix) {
+                return a;
+            }
+        });
+        setinputOpt(state => [...values]);
     };
 
     return (
         <Container width={width} height={height} radius={radius}>
-            <label>Menu 1:</label>
+            <label>{title}</label>
             <InpuArea>
                 <textarea
-                    type='text'
-                    maxLength={10}
-                    value={menuArea}
-                    rows="8" cols="320"
-                    onChange={e => setMenuArea(e.target.value)}
+                    type={type}
+                    placeholder={placeholder}
+                    value={textTarget}
+                    onChange={onChange}
+                    id={id}
+                    name={name}
+                    rows="8"
+                    cols="320"
                 />
             </InpuArea>
 
             <AreaOp>
-                {inputOpt.map((v, i) =>
+                {/* {inputOpt.map((v, i) =>
                     <div>
                         <BsArrowReturnRight
                             size={20}
                             color='#fff'
                             cursor='pointer'
-                            onClick={() => alert('remove')}
+                            onClick={() => removInput(i)}
                         />
                         <span>
                             <NumberInput type='number' />
@@ -50,16 +98,20 @@ export default function InputMenuOption({ title, width, height, radius }) {
                             <BsArrowRight size={25} color='#fff' cursor='pointer' />
                             <AcaoInput type='text' />
                         </span>
-
                         <BsArrowReturnLeft
                             size={20}
                             color='#fff'
                             cursor='pointer'
-                            onClick={() => alert('remove')}
+                            onClick={() => removInput(i)}
                         />
                     </div>
-                )}
-                <BsPlusLg size={25} color='#fff' cursor='pointer' onClick={handleInputOpt} />
+                )} */}
+                <BsPlusLg
+                    size={25}
+                    color='#fff'
+                    cursor='pointer'
+                    onClick={handleInputOpt}
+                />
             </AreaOp>
 
         </Container>
